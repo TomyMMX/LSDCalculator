@@ -1,5 +1,7 @@
 $(document).ready(function() { 
- 
+	$("input[type='text']").on("click", function () {
+   		$(this).select();
+	});
 });
 
 var stoneRadius = 142;
@@ -9,10 +11,6 @@ function StartLSDCalculaton(){
 	var from3Text = $("#from3").val().replace(",", ".");
 	var from6Text = $("#from6").val().replace(",", ".");	
 	
-	$("#fromPin").val("");
-	$("#from3").val("");
-	$("#from6").val("");
-
 	var res = 0.0;
 	if(fromPinText!=""){
 		var fromPin = parseFloat(fromPinText);
