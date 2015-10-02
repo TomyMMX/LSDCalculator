@@ -1,5 +1,5 @@
 $(document).ready(function() { 
-	$("input[type='text']").on("click", function () {
+	$("input").on("click", function () {
    		$(this).select();
 	});
 });
