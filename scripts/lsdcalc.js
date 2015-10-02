@@ -1,11 +1,23 @@
+var stoneRadius = 142;
+var prevStoneX = '';
+var prevStoneY = '';
+
 $(document).ready(function() { 
 	$("input").on("click", function () {
    		$(this).select();
 	});
+    window.onresize = function(event) {
+        if(prevStoneX!=''){
+            DrawStoneLocation(prevStoneX, prevStoneY);
+        }    
+    };
 });
 
-var stoneRadius = 142;
 function DrawStoneLocation(stoneX, stoneY){
+      
+      prevStoneX=stoneX;
+      prevStoneY=stoneY;
+
       var canvas = document.getElementById('sheet');
       var context = canvas.getContext('2d');
       
@@ -32,6 +44,16 @@ function DrawStoneLocation(stoneX, stoneY){
         context.drawImage(img, centerx, centery);
       }
       img.src =  "img/stone.png";
+
+      var ww = window.innerWidth-35;
+
+      if(ww<canvas.width){
+        canvas.style.width = ww+'px';
+        canvas.style.height = ww+'px';
+      }else{
+        canvas.style.width = '400px';
+        canvas.style.height = '400px';
+      }
 }
 
 function DrawLine(context, fromX, fromY, toX, toY, width, color){
@@ -67,6 +89,8 @@ function EraseCanvas(){
     var context = canvas.getContext('2d');
       
     context.clearRect(0, 0, canvas.width, canvas.height);
+    prevStoneX='';
+    prevStoneY='';
 }
 
 function SimpleLSDCalculation(){
@@ -133,9 +157,8 @@ function CalculateLSDDistance(from6, from3){
     point.y = (y/r).toFixed(4);
 
     var k = (((b*b)-(a*a))/(2*r))-y;
-    var z = Math.sqrt((x*x)-(y*y));
+    //var z = Math.sqrt((x*x)-(y*y));
     point.z = (-k/r).toFixed(4);
-
 
 	return point;
 }
