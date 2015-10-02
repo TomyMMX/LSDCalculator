@@ -12,47 +12,59 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <link href="css/styles.css" rel="stylesheet">
   </head>
 
   <body>
 
-    <div class="row" style="margin-left: 20px; margin-right: 20px">
+    <div class="row">
         <div class="col-md-6 col-sm-12">
-            <table style="width: 100%;">
-                <tr>
-                    <td style="text-align: center; vertical-align: middle;">
-                        <h3>LSD calculator</h3>
-                    </td>
-                </tr>
-            </table>
-   
 	        <form>
-	            <div class="form-group">
-	                <label for="exampleInputEmail1">Distance from pin [cm]</label>
-	                <input type="text" class="form-control" id="fromPin" placeholder="0,0">
-	            </div>
-	            <table style="width: 100%;">
-                    <tr>
-                        <td style="text-align: center; vertical-align: middle;">
-                            <h4>If pin is covered use new measurment method (4 ft.)</h4>
-                        </td>
-                    </tr>
-                </table>
-	            <div class="form-group">
-	                <label for="exampleInputEmail1">Distance from 3 o'clock [cm]</label>
-	                <input type="text" class="form-control" id="from3" placeholder="0,0">
-	            </div>
-	            <div class="form-group">
-	                <label for="exampleInputPassword1">Distance from 6 o'clock [cm]</label>
-	                <input type="text" class="form-control" id="from6" placeholder="0,0">
-	            </div>	 
-	            <a href="#" type="submit" onclick="StartLSDCalculaton();" class="btn btn-default pull-right">Calculate</a>
-	        </form>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation">
+                        <a href="#simple" aria-controls="home" role="tab" data-toggle="tab">Simple</a>
+                    </li>
+                    <li role="presentation" class="active">
+                        <a href="#covered" aria-controls="profile" role="tab" data-toggle="tab">Pin covered</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="margin-top:15px;">
+                    <div role="tabpanel" class="tab-pane fade" id="simple">
+                        <div class="form-group">
+	                        <label>Distance from pin [cm]</label>
+	                        <input type="number" class="form-control fromPin" id="fromPin" placeholder="0.0">
+	                    </div>          
+	            
+                        <a href="javascript:void(0);" type="submit" 
+                           onclick="SimpleLSDCalculation();" class="btn btn-default btn-primary pull-right">Calculate</a>
+	                    <a href="javascript:void(0);" type="submit" 
+                           onclick="ResetAll();" class="btn btn-default">Reset</a>
+                    </div>
+                    <div role="tabpanel" class="tab-pane active fade in" id="covered">
+                                         
+	                    <div class="form-group">
+	                        <label>Distance from 6 o'clock [cm]</label>
+	                        <input type="number" class="form-control from6" id="from6" placeholder="0.0">
+	                    </div>
+	                    <div class="form-group">
+	                        <label>Distance from 3 o'clock [cm]</label>
+	                        <input type="number" class="form-control from3" id="from3" placeholder="0.0">
+	                    </div>
+        	            <a href="javascript:void(0);" type="submit" 
+                           onclick="StartLSDCalculaton();" class="btn btn-default btn-primary pull-right">Calculate</a>
+	                    <a href="javascript:void(0);" type="submit" 
+                           onclick="ResetAll();" class="btn btn-default">Reset</a>
+                    </div>
+                </div>
+
+            </form>
            
 	        <table style="width: 100%;">
 	            <tr>
 	                <td style="text-align: center; vertical-align: middle;">
-	                    <h2 id="resultLabel"></h2> 
+	                    <h2 id="resultLabel"></h2>
+
+                        <canvas id="sheet" width="400" height="400"></canvas>
 	                </td>
 	            </tr>
 	        </table>
