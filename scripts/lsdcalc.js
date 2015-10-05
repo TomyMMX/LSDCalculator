@@ -3,9 +3,12 @@ var prevStoneX = '';
 var prevStoneY = '';
 
 $(document).ready(function() { 
-	$("input").on("click", function () {
+    //select all when selecting an input field
+    $("input").on("click", function () {
    		$(this).select();
 	});
+    
+    //redraw the graphic if window resizes
     window.onresize = function(event) {
         if(prevStoneX!=''){
             DrawStoneLocation(prevStoneX, prevStoneY);
@@ -14,7 +17,7 @@ $(document).ready(function() {
 });
 
 function DrawStoneLocation(stoneX, stoneY){
-      
+      //so we have the calculation if we have to redraw
       prevStoneX=stoneX;
       prevStoneY=stoneY;
 
@@ -27,18 +30,23 @@ function DrawStoneLocation(stoneX, stoneY){
       var centerY = canvas.height / 2;
       var radius = centerX;
 
+      //4ft an 1 ft circles
       DrawCircle(context, radius, '#d2271a', centerX, centerY); 
       DrawCircle(context, radius/3, 'white', centerX, centerY); 
-     
-      DrawLine(context, 200, 0, 200, 400, 4, '#111');
-      DrawLine(context, 400, 200, 0, 200, 4, '#111');
+        
+      //center and T lines
+      DrawLine(context, canvas.width/2, 0, canvas.width/2, canvas.width, 4, '#111');
+      DrawLine(context, canvas.width, canvas.width/2, 0, canvas.width/2, 4, '#111');
 
+      //position of the stone
       var centerx = 150-(stoneX*(radius-5));
       var centery = 150-(stoneY*(radius-5));
 
+      //lines from the measuring point to the stone
       DrawLine(context, 400, 200, centerx+50, centery+50, 8, '#5abc5d');
       DrawLine(context, 200, 400, centerx+50, centery+50, 8, '#0f75bc');
 
+      //the stone
       var img = new Image();
       img.onload = function() {
         context.drawImage(img, centerx, centery);
@@ -46,7 +54,8 @@ function DrawStoneLocation(stoneX, stoneY){
       img.src =  "img/stone.png";
 
       var ww = window.innerWidth-35;
-
+    
+      //scale the drawing if window too narow
       if(ww<canvas.width){
         canvas.style.width = ww+'px';
         canvas.style.height = ww+'px';
@@ -96,9 +105,15 @@ function EraseCanvas(){
 function SimpleLSDCalculation(){
 	var fromPinText = $("#fromPin").val().replace(",", ".");
     var fromPin = parseFloat(fromPinText);
-	var	res = fromPin*10 + stoneRadius;
-	res = (res/10).toFixed(1);
+	
+    //just add the stone radius
+    var	res = fromPin*10 + stoneRadius;
+	
+    res = (res/10).toFixed(1);
+    
+    //we don't draw this since there is no way to know where the stone is
     EraseCanvas(); 
+    
     if(res=="NaN"){
   	    $("#resultLabel").text("Input value error.");
     }else{
@@ -108,12 +123,11 @@ function SimpleLSDCalculation(){
 function StartLSDCalculaton(){
 	var from3Text = $("#from3").val().replace(",", ".");
 	var from6Text = $("#from6").val().replace(",", ".");	
-	
-	var res = 0.0;
-
+    
+    //measured distances in mm
 	var from3 = parseFloat(from3Text)*10;
 	var from6 = parseFloat(from6Text)*10;
-    res = CalculateLSDDistance(from6, from3);
+    var res = CalculateLSDDistance(from6, from3);
 
     if(res.x=="NaN"){
         EraseCanvas();
@@ -125,40 +139,41 @@ function StartLSDCalculaton(){
 }
 
 function CalculateLSDDistance(from6, from3){
-	var A = 2;
-	//all values in mm	
-
+	//all values in mm
 	//radius of the 4ft circle
 	var r = 609.6;
-
+    
+    //distance from the 6 o'clock measuring point to the center of the stone
 	var a = from6 + stoneRadius;
-	var b = from3 + stoneRadius;
 
-	var B = - ((b*b - a*a) / r) + (2*r);
-	var D = Math.pow(((b*b - a*a)/(2*r)), 2) - (b*b) + (r*r);
+    //distance from the 3 o'clock measuring point to the center of the stone
+    var b = from3 + stoneRadius;
 
-	var psq = (B*B) - (4 * A * D);
-	var sq = Math.sqrt(psq);
-	var y1 = (-B + sq)/(2 * A);
-	var y2 = (-B - sq)/(2 * A);
+	var A = 2;
+	var B = 2*r - ((b^2 - a^2) / r);    
+    var C = (b^2 - a^2) / (2*r);
+	var D = C^2 - b*b + r*r;
+	var E = Math.sqrt(B*B - 4*A*D);
+		
+    var y1 = (-B + E) / (2*A);
+	var y2 = (-B - E) / (2*A);
+    
+	var y = y1>y2 ? y1 : y2;
 
-	var y = y1;
+    var z = C - y;
 
-	if(y < 0){
-		if(y2>-1){
-			y = y2;   
-		} 
-	}
-
-	var x = Math.sqrt((2*y*y) - ((b*b-a*a)/r)*y + Math.pow(((b*b-a*a)/(2*r)), 2));
+    var x = Math.sqrt((2*y*y) - ((b^2 - a^2) / r)*y + C^2);
     
     var point = {};
+   
+    //x is the distance of the stone center to the button in cm
     point.x = (x/10).toFixed(1);
+    
+    //y is the distance from the T line in percent of the 4ft radius
     point.y = (y/r).toFixed(4);
-
-    var k = (((b*b)-(a*a))/(2*r))-y;
-    //var z = Math.sqrt((x*x)-(y*y));
-    point.z = (-k/r).toFixed(4);
+    
+    //z is the distance from the center line in percent of the 4ft radius
+    point.z = (-z/r).toFixed(4);
 
 	return point;
 }
