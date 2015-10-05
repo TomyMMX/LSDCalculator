@@ -8,6 +8,15 @@ $(document).ready(function() {
         $(this).select();
     });
     
+    //help for some stupid samsung devices
+    //add/remove decimal seperator before last char
+    $("input").on("doubletap", function () {
+        addRemovePoint($(this));
+    });
+    $("input").dblclick( function () {
+        addRemovePoint($(this));
+    });
+
     //redraw the graphic if window resizes
     window.onresize = function(event) {
         if(prevStoneX!=''){
@@ -15,6 +24,17 @@ $(document).ready(function() {
         }    
     };
 });
+
+function addRemovePoint(element){
+    var curVal = element.val().replace(",", ".");
+    if(curVal.indexOf(".")>-1){
+        element.val(curVal.replace(".",""));
+    }else if(curVal.length > 1){
+        var l = curVal.length;
+        curVal = curVal.slice(0,l-1)+"."+curVal.slice(l-1);
+        element.val(curVal);
+    }
+}
 
 function DrawStoneLocation(stoneX, stoneY){
     //so we have the calculation if we have to redraw
