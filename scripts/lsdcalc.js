@@ -54,7 +54,7 @@ function DrawStoneLocation(stoneX, stoneY){
     DrawCircle(context, radius, '#d2271a', centerX, centerY); 
     DrawCircle(context, radius/3, 'white', centerX, centerY); 
         
-    //center and T lines
+    //centen and T lines
     DrawLine(context, canvas.width/2, 0, canvas.width/2, canvas.width, 4, '#111');
     DrawLine(context, canvas.width, canvas.width/2, 0, canvas.width/2, 4, '#111');
 
