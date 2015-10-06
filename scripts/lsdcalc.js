@@ -11,10 +11,10 @@ $(document).ready(function() {
     //help for some stupid samsung devices
     //add/remove decimal seperator before last char
     $("input").on("doubletap", function () {
-        addRemovePoint($(this));
+        //addRemovePoint($(this));
     });
     $("input").dblclick( function () {
-        addRemovePoint($(this));
+        //addRemovePoint($(this));
     });
 
     //redraw the graphic if window resizes
