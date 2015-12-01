@@ -31,8 +31,8 @@
                 <div class="tab-content" style="margin-top:15px;">
                     <div role="tabpanel" class="tab-pane fade" id="simple">
                         <div class="form-group">
-	                        <label>Distance from pin [cm]</label>
-	                        <input type="number" step="0.1" class="form-control fromPin" id="fromPin" placeholder="0.0">
+	                        <label>Distance from pin [mm]</label>
+	                        <input type="number" step="1" class="form-control fromPin" id="fromPin" placeholder="0">
 	                    </div>          
 	            
                         <a href="javascript:void(0);" onclick="SimpleLSDCalculation();" 
@@ -43,12 +43,12 @@
                     <div role="tabpanel" class="tab-pane active fade in" id="covered">
                                          
 	                    <div class="form-group">
-	                        <label>Distance from 6 o'clock [cm]</label>
-	                        <input type="number" step="0.1" class="form-control from6" id="from6" placeholder="0.0">
+	                        <label>Distance from 6 o'clock [mm]</label>
+	                        <input type="number" step="0" class="form-control from6" id="from6" placeholder="0">
 	                    </div>
 	                    <div class="form-group">
-	                        <label>Distance from 3 o'clock [cm]</label>
-	                        <input type="number" step="0.1" class="form-control from3" id="from3" placeholder="0.0">
+	                        <label>Distance from 3 o'clock [mm]</label>
+	                        <input type="number" step="0" class="form-control from3" id="from3" placeholder="0">
 	                    </div>
         	            <a href="javascript:void(0);" onclick="StartLSDCalculaton();" 
                            class="btn btn-default btn-primary pull-right">Calculate</a>

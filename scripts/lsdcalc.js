@@ -127,7 +127,7 @@ function SimpleLSDCalculation(){
     var fromPin = parseFloat(fromPinText);
 	
     //just add the stone radius
-    var	res = fromPin*10 + stoneRadius;
+    var	res = fromPin + stoneRadius;
 	
     res = (res/10).toFixed(1);
     
@@ -145,8 +145,8 @@ function StartLSDCalculaton(){
 	var from6Text = $("#from6").val().replace(",", ".");	
     
     //measured distances in mm
-	var from3 = parseFloat(from3Text)*10;
-	var from6 = parseFloat(from6Text)*10;
+	var from3 = parseFloat(from3Text);
+	var from6 = parseFloat(from6Text);
     var res = CalculateLSDDistance(from6, from3);
 
     if(res.x=="NaN"){
